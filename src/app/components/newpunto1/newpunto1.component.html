@@ -1,0 +1,42 @@
+<ng-template #contenido let-modal>
+    <div class="modal-header">
+      <h4>Mensaje Enviado</h4>
+    </div>
+    <div class="modal-body">
+      <p>Desde: {{newmensaje.desde}}</p>
+      <p>Hacia: {{newmensaje.para}}</p>
+      <p>Mensaje: {{newmensaje.texto}}</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" (click)="modal.close(contenido)">OK</button>
+    </div>
+</ng-template>
+
+<form class="card" >
+    <div class="card-header">Envio de Mensajes</div>
+    <div class="card-body">
+        <div class="row form-group">
+            <label class="col-sm-12 col-md-4">Para</label>
+            <input class="form-control col-sm-12 col-md-8" type="number" name="txtdesde" [(ngModel)] = "newmensaje.para"/>
+        </div>
+        <div class="row form-group">
+            <label class="col-sm-12 col-md-4" >Desde</label>
+            <input class="form-control col-sm-12 col-md-8" type="number" name="txthasta" [(ngModel)] = "newmensaje.desde"/>
+        </div>
+        <label>Longitud de texto: {{tamTexto}}</label>
+        <div class="row form-group">
+            <textarea class="form-control" [maxlength]="tamMaxTexto" rows="5" name="txtTexto" [(ngModel)] = "newmensaje.texto" (ngModelChange)="cambiarTamTexto()">  
+            </textarea>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-12 col-md-4">
+                <button type="button" class="btn btn-primary" (click)="modal.open(contenido)">Enviar</button>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-12 col-md-4">
+                <button type="button" class="btn btn-primary" (click)="clear()">Limpiar</button> 
+            </div>
+        </div>
+    </div>
+</form>

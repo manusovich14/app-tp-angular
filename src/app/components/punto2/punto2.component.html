@@ -1,0 +1,45 @@
+<form class="card" >
+    <div class="card-header">FORMULARIO DE ASISTENCIA</div>
+    <div class="card-body">
+        <div class="row form-group">
+            <label class="col-sm-12 col-md-4">Ingrese usuario: </label>
+            <input class="form-control col-sm-12 col-md-8" type="text" name="txtdesde" [(ngModel)] = "asistente.usuario"/>
+        </div>
+        <div class="row form-group">
+            <label class="col-sm-12 col-md-4" >Ingrese nombre de la Organizacion: </label>
+            <input class="form-control col-sm-12 col-md-8" type="text" name="txthasta" [(ngModel)] = "asistente.nombreOrg"/>
+        </div>
+        <label>Requiere Constancia: </label>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="SI" [(ngModel)] = "asistente.requiereConst" checked>
+            <label class="form-check-label" for="exampleRadios1">
+              SI
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="NO" [(ngModel)] = "asistente.requiereConst">
+            <label class="form-check-label" for="exampleRadios2">
+              NO
+            </label><br>
+        </div>
+        <div class="row form-group">
+            <button type="button" class="btn btn-primary" (click)="registrarAsistencia()">Registrar</button>  
+        </div>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+        <th scope="col">Usuario</th>
+        <th scope="col">Nombre Organizacion</th>
+        <th scope="col">Requiere Constancia</th>
+    </tr>
+    </thead>
+        <tbody>
+        <tr *ngFor="let item of asistentes">
+        <th scope="row">{{item.usuario }}</th>
+        <td>{{item.nombreOrg | uppercase}}</td>
+        <td>{{item.requiereConst}}</td>
+    </tr>             
+</tbody>
+</table>
