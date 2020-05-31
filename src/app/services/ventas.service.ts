@@ -5,16 +5,17 @@ import { Pasaje } from '../models/pasaje';
   providedIn: 'root'
 })
 export class VentasService {
-  vector_ventas: Array<Pasaje>;
+  ventas: Array<Pasaje>;
+
   constructor() { 
-    this.vector_ventas=new Array<Pasaje>();
+    this.ventas = new Array<Pasaje>();
   }
 
-  listVenta(){
-    return this.vector_ventas;
+  venderPasaje(venta: Pasaje) {
+    this.ventas.push(venta);
   }
 
-  saveVenta(venta: Pasaje){
-    this.vector_ventas.push(venta);
+  listarPasajes() {
+    return this.ventas;
   }
 }

@@ -1,38 +1,104 @@
-<form class="card" #formregistro="ngForm">
-    <div class="card-header text-center" > --Juegos-- </div>
-      <div class="card-body">
-      <div class="row form-group">
-        <label class="col-sm-12 col-md-4 titulos" >Categoría: Animales</label>
-        <button type="button" class="btn btn-primary col-md-8 cartel" style="width: 100%;" (click)="iniciarJuego()"><i class="fas fa-dice"></i> Iniciar</button>
+<div *ngIf="!gano && !perdio" class="row">
+  <div *ngIf="fueIniciado" class="card col-12">
+    
+    <!-- Vidas y Puntaje-->
+    <div class="modal-header">
+      <div class="mx-auto">
+        <h4> VIDAS: {{vidas}}</h4>
       </div>
-      <div class="row form-group" *ngIf="mostrar1">
-            <div class="col-6 titulos"><i class="fas fa-heart" style="color: red;"></i> Vidas: {{vidas}}</div>
-            <div class="col-6 titulos"><i class="far fa-star"></i> Puntaje: {{puntaje}}</div>
+      <div class="mx-auto">
+        <h4> PUNTAJE: {{puntaje}}</h4>
       </div>
-      <div class="row form-group" *ngIf="mostrar1">
-        <div class="card-header text-center" style="width: 100%;">{{nombreEsp}}</div>
-  </div>
-      <div class="card-img" *ngIf="mostrar1"><img class="card-img-pers" src={{imagen}} alt=""></div>
-      <div class="row form-group" *ngIf="mostrar1">
-        <input class="form-control col-12 text-center" type="text" placeholder="Escriba el nombre del animal en inglés" name="txtnombreanimal" required [(ngModel)]= "palabra" #nombreanimal="ngModel"/>
-        <div *ngIf="nombreanimal.invalid && (nombreanimal.dirty || nombreanimal.touched)" class="alert alert-danger">
-          <div *ngIf="nombreanimal.errors.required">
-              Debe ingresar el nombre en ingles
+    </div>
+    
+    <!-- Foto del Animal -->
+    <div class="modal-content">
+      <img src="{{itemSelect.url}}" alt="item-photo" class="rounded mx-auto d-block" width="250" height="250">
+    </div>
+
+    <!-- Inputs para poner las letras -->
+    <div class="card-footer">
+      <div class="col-12 mx-auto">
+        <div class="row">
+          <div *ngFor="let item of letrasParaAdivinar; index as i " class="mx-auto">
+            <input id="{{ i }}" maxlength="1" class="my-inputs text-center text-uppercase" size="3" type="text" (keydown)="keydown(i,$event)" (focus)="verificarPorBotones(i)">
           </div>
         </div>
       </div>
-      <div class="row form-group" *ngIf="mostrar1">
-        <button type="button" class="btn btn-primary col-12 cartel" style="width: 100%; height: 5em;" (click)="comprobar()" [disabled]="!formregistro.form.valid"><i class="far fa-check-circle"></i> Comprobar</button>
-      </div>
-      <div class="row form-group" *ngIf="mostrar2">
-        <label class="col-sm-12 col-md-12 titulos cartel" >¡Acertaste, Sumas 1 Punto!</label>
-        <button type="button" class="btn btn-primary col-12  cartel" style="width: 100%; height: 5em;" (click)="continuar()" [disabled]="!formregistro.form.valid"><i class="far fa-check-circle"></i> Continuar</button>
-      </div>
-      <div class="row form-group" *ngIf="mostrar3">
-        <label class="col-sm-12 col-md-12 titulos cartel">¡Error, Pierdes 1 Vida!</label>
-        <button type="button" class="btn btn-primary col-12  cartel" style="width: 100%; height: 5em;" (click)="continuar()" [disabled]="!formregistro.form.valid"><i class="far fa-check-circle"></i> Continuar</button>
-      </div>
-      <div *ngIf="mostrar4" class="card-header cartel" style="width: 100%; height: 10em;">Perdiste todas tus vidas...<p></p>Vidas: {{vidas}}<p></p>Puntaje: {{puntaje}}<p></p>(Presione "Iniciar" para reiniciar)</div>
-      <div *ngIf="mostrar5" class="card-header cartel" style="width: 100%; height: 10em;">¡GANASTE!<p></p>Vidas: {{vidas}}<p></p>Puntaje: {{puntaje}}<p></p>(Presione "Iniciar" para reiniciar)</div>
     </div>
-</form>
+
+    <!-- Teclado de pantalla -->
+    <div class="card-footer">
+      <div class="row">
+        <div class="m-1" *ngFor="let item of letras">
+          <button class="m-1 btn btn-primary btn-block" (click)="seleccionarTecla(item)">{{ item }}</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Palabra en castellano -->
+    <div class="card-footer">
+      <div class="card border-dark text-center text-uppercase">
+        <h4>{{ itemSelect.palabra }}</h4>
+      </div>
+    </div>
+    
+    <!-- Rendirse -->
+    <div class="card-footer">
+      <button class="btn btn-block btn-danger" (click)="fueIniciado=false">¡Me rindo!</button>
+    </div>
+  </div>
+
+  <!-- Pantalla de Inicio del Juego -->
+  <div *ngIf="!fueIniciado" class="card col-12 mt-5">
+    <div class="modal-header">
+      <div class="mx-auto">
+        <h4>Ahorcadito de Animales</h4>
+      </div>
+    </div>
+    <div class="modal-content">
+      <img src="https://webeuropa.weebly.com/uploads/7/4/6/3/7463871/891882021.jpg?632" class="img-fluid" alt="start">
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-block btn-primary" (click)="iniciarJuego()">
+        Iniciar Juego
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Juego Ganado -->
+<div *ngIf="gano" class="row">
+  <div *ngIf="fueIniciado" class="card col-12 mt-5">
+    <div class="modal-header">
+      <div class="mx-auto">
+        <h4>¡Felicidades!</h4>
+      </div>
+
+    </div>
+    <div class="modal-content">
+      <img src="https://media.giphy.com/media/nbJUuYFI6s0w0/giphy.gif" alt="item-photo">
+
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-block btn-danger" (click)="iniciarJuego()">Jugar de nuevo</button>
+    </div>
+  </div>
+</div>
+
+<!-- Juego Perdido -->
+<div *ngIf="perdio" class="row">
+  <div *ngIf="fueIniciado" class="card col-12 mt-5">
+    <div class="modal-header">
+      <div class="mx-auto">
+        <h4>¡Juego terminado!</h4>
+      </div>
+    </div>
+    <div class="modal-content">
+      <img src="https://media1.tenor.com/images/ec02259aeaa448c66d21c3e73bec5632/tenor.gif" alt="item-photo">
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-block btn-danger" (click)="iniciarJuego()">Intentar de nuevo</button>
+    </div>
+  </div>
+</div>
